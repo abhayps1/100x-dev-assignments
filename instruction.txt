@@ -1,0 +1,4 @@
+For running the tests use this command
+
+
+npx jest ./tests/filename.test.js
