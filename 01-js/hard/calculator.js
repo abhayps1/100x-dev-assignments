@@ -16,6 +16,100 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+
+  constructor() {
+    this.result = 0;
+  }
+
+  add(number) {
+    this.result += number;
+  }
+
+  subtract(number){
+    this.result -= number;
+  }
+
+  multiply(number){
+    this.result *= number;
+  }
+
+  divide(number) {
+    if (number === 0) {
+      throw new Error("Cannot divide by zero");
+    }
+    this.result /= number;
+  }
+
+  clear(){
+    this.result = 0;
+  }
+
+  getResult(){
+    return this.result;
+  }
+
+  calculate(expression) {
+    // Remove spaces and split the expression into tokens
+    const tokens = expression.replace(/\s+/g, '').match(/(\d+|\+|\-|\*|\/|\(|\))/g);
+
+    if (!tokens) {
+      throw new Error("Invalid expression");
+    }
+
+    const stack = [];
+    const operators = ['+', '-', '*', '/'];
+
+    let i = 0;
+    while (i < tokens.length) {
+      const token = tokens[i];
+      if (operators.includes(token)) {
+        stack.push(token);
+      } else if (token === '(') {
+        stack.push(token);
+      } else if (token === ')') {
+        let op = stack.pop();
+        while (op !== '(') {
+          this.evaluateExpression(stack.pop(), stack);
+          op = stack.pop();
+        }
+      } else if (!isNaN(token)) {
+        this.evaluateExpression(token, stack);
+      } else {
+        throw new Error("Invalid character in expression");
+      }
+      i++;
+    }
+
+    while (stack.length > 1) {
+      this.evaluateExpression(stack.pop(), stack);
+    }
+
+    return this.getResult();
+  }
+
+  evaluateExpression(token, stack) {
+    const num2 = parseFloat(stack.pop());
+    const num1 = parseFloat(stack.pop());
+
+    switch (token) {
+      case '+':
+        this.add(num1 + num2);
+        break;
+      case '-':
+        this.subtract(num1 - num2);
+        break;
+      case '*':
+        this.multiply(num1 * num2);
+        break;
+      case '/':
+        this.divide(num1 / num2);
+        break;
+      default:
+        throw new Error("Invalid operator");
+    }
+  }
+
+}
 
 module.exports = Calculator;
