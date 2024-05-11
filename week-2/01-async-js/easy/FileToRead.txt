@@ -1,0 +1,6 @@
+************************************************
+Hi the contents of this file are being read.
+
+The file has some random lines
+The content is getting displayed successfully.
+************************************************
